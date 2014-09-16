@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<ul class=entries>
+  {% for file in file_list %}
+    <li><h2><a href="{{ url_for('send_file',filename=file) }}">{{ file }}</a></h2>{{ file_list[file]  }} Kb
+  {% endfor %}
+  </ul>
+  <ul>
+
+
+{% endblock %}
