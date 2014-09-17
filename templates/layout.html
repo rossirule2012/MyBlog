@@ -2,17 +2,18 @@
 <title>Federico Rossi</title>
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
 <div class=page>
-  <h1>Federico Rossi</h1>
-  <div class=metanav>
-    <a href="{{ url_for('show_entries') }}">Main</a>
-    <a href="{{ url_for('uploaded_files') }}">Files</a>
-  {% if not session.logged_in %}
-    <a href="{{ url_for('login') }}">Admin</a>
-  {% else %}
-    <a href="{{ url_for('logout') }}">Logout</a>
-    
-  {% endif %}
-  </div>
+  <h1><p align="center">Friedrich's Blog</p></h1>
+  <ul id="navlist">
+    <li><a href="{{ url_for('show_entries') }}">Home</a></li>
+    <li><a href="{{ url_for('uploaded_files') }}">Files</a></li>
+    {% if not session.logged_in %}
+    <li><a href="{{ url_for('login') }}">Admin</a></li>
+    {% else %}
+    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+    <li><a href="{{ url_for('up_file') }}">Upload file</a></li>
+    {% endif %}
+  </ul>
+  <hr />
   {% for message in get_flashed_messages() %}
     <div class=flash>{{ message }}</div>
   {% endfor %}

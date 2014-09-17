@@ -1,6 +1,6 @@
-body            { font-family: sans-serif; background: #eee; }
+body            { font-family: 'Courier New, Courier, mono'; background: #eee; }
 a, h1, h2       { color: #377BA8; }
-h1, h2          { font-family: 'Arial', serif; margin: 0; }
+h1, h2          { font-family: 'Courier New, Courier, mono', serif; margin: 2; }
 h1              { border-bottom: 2px solid #eee; }
 h2              { font-size: 1.0em; }
 
@@ -61,3 +61,12 @@ h2              { font-size: 1.0em; }
   border: solid 1px #707070;
     box-shadow: 0 0 5px 1px #969696;
  }
+
+
+
+#navlist li
+{
+display: inline;
+list-style-type: none;
+padding-right: 20px;
+}

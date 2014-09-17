@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block body %}
   {% if session.logged_in %}
+    Logged as <b>"{{ user }}"</b>
     <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
       <dl>
         <dt>Title:
@@ -9,7 +10,6 @@
         <dt><textarea name=text rows=5 cols=68 class=textareas></textarea>
         <dt><input type=submit value=Share class=loginb>
         <dt>
-        <dt><a href="{{ url_for('up_file') }}">Upload</a>
       </dl>
     </form>
     

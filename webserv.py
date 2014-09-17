@@ -7,9 +7,9 @@ import list_files
 
 #---CONFIG---#
 DATABASE = '__sqlite__//webserver.db'
-USERNAME = 'admin'
-PASSWORD = 'root'
-SECRET_KEY = 'keykey'
+USERNAME = 'federico'
+PASSWORD = 'root@this'
+SECRET_KEY = 'developement key'
 DEBUG=True
 UPLOAD_FOLDER = 'files//'
 #---CONFIG---#
@@ -36,7 +36,10 @@ def show_entries():
     g.db = sqlite3.connect(app.config['DATABASE'])
     cur = g.db.execute('select id,title,text from entries order by id desc')
     entries = [dict(ids=row[0], title=row[1], text=row[2]) for row in cur.fetchall()]
-    return render_template('show_entries.html',entries=entries)
+    if 'user' in session:
+        return render_template('show_entries.html',entries=entries,user=session['user'])
+    else:
+        return render_template('show_entries.html',entries=entries)
 
 @app.route('/add',methods=['POST'])
 def add_entry():
@@ -50,16 +53,24 @@ def add_entry():
 
 @app.route('/up_file',methods=['GET','POST'])
 def up_file():
+    error=None
     if not session.get('logged_in'):
         abort(401)
     if request.method=='POST':
-        file=request.files['file']
-        if file:
-            filename=secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            flash('File saved')
-            return redirect(url_for('show_entries'))
-    return render_template('upload.html')
+        if not request.files['file']:
+            error='File missing'
+        else:
+            file=request.files['file']
+            if file:
+                filename=secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                flash('File saved')
+                return redirect(url_for('show_entries'))
+    return render_template('upload.html',error=error)
+
+
+
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -71,7 +82,7 @@ def login():
             error = 'Invalid password'
         else:
             session['logged_in'] = True
-            flash('You were logged in')
+            session['user'] = request.form['username']
             return redirect(url_for('show_entries'))
     return render_template('login.html', error=error)
 
@@ -88,7 +99,6 @@ def remove():
 
 @app.route('/files')
 def uploaded_files():
-    print(list_files.list_files(UPLOAD_FOLDER))
     return render_template('files.html',file_list=list_files.list_files(UPLOAD_FOLDER))
 
 
@@ -104,7 +114,7 @@ def logout():
     return redirect(url_for('show_entries'))
 
 if __name__=='__main__':
-        app.run(port=int('8000'),host='0.0.0.0')
+        app.run(port=int('8080'),host='0.0.0.0')
 
 
 
